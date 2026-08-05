@@ -27,7 +27,7 @@ android {
         release {
             storeFile file('rootes.keystore')
             storePassword '123456'
-            keyAlias '爸爸'
+            keyAlias 'Github'
             keyPassword '123456'
         }
     }
