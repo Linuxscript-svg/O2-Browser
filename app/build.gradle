@@ -26,9 +26,9 @@ android {
         // 新增 release 签名配置（开发阶段可复用 debug 密钥）
         release {
             storeFile file('rootes.keystore')
-            storePassword '密码'
-            keyAlias '用户名'
-            keyPassword '密码'
+            storePassword '123456'
+            keyAlias '爸爸'
+            keyPassword '123456'
         }
     }
 
