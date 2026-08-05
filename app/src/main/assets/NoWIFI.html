@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>无法访问互联网</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none}
+  body{background:#fdf5e7;font-family:-apple-system, BlinkMacSystemFont, sans-serif}
+  .container{max-width:480px;margin:0 auto;height:100vh;position:relative;background:#fdf5e7}
+
+  /* 断网提示条 */
+  .offline-tip{
+    background:#ffecec;color:#ff4d4f;
+    text-align:center;padding:8px 10px;font-size:14px;
+    border-bottom:1px solid #ffc9c9
+  }
+
+  .top-bar{
+    display:flex;justify-content:space-between;
+    padding:12px 16px;background:#fff9f0;
+    border-bottom:1px solid #e6cba6
+  }
+  .level{font-size:18px;font-weight:bold;color:#754c24}
+  .score{font-size:16px;color:#754c24}
+
+  .game-area{
+    position:absolute;left:0;right:0;top:110px;bottom:160px;
+  }
+
+  .card{
+    position:absolute;width:54px;height:70px;
+    background:#fff;border:2px solid #d4a76a;
+    border-radius:10px;font-size:32px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+    touch-action:manipulation
+  }
+  .card.used{opacity:0.2;pointer-events:none}
+
+  .slot-area{
+    position:absolute;left:0;right:0;bottom:20px;
+    display:flex;justify-content:center;gap:8px;padding:0 10px
+  }
+  .slot{
+    width:54px;height:70px;border:2px dashed #d4a76a;
+    border-radius:10px;background:#fff9f0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:32px
+  }
+
+  .restart{
+    position:absolute;bottom:100px;left:50%;
+    transform:translateX(-50%);
+    background:#ff7043;color:white;
+    border:none;border-radius:20px;
+    padding:8px 16px;font-size:14px
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <!-- 断网提示 -->
+  <div class="offline-tip">
+    你似乎没有连接互联网？但是可以先玩一玩小游戏
+  </div>
+
+  <div class="top-bar">
+    <div class="level">第1关</div>
+    <div class="score">得分：<span id="score">0</span></div>
+  </div>
+
+  <div class="game-area" id="game"></div>
+
+  <div class="slot-area">
+    <div class="slot" id="s0"></div>
+    <div class="slot" id="s1"></div>
+    <div class="slot" id="s2"></div>
+    <div class="slot" id="s3"></div>
+    <div class="slot" id="s4"></div>
+    <div class="slot" id="s5"></div>
+    <div class="slot" id="s6"></div>
+  </div>
+
+  <button class="restart" onclick="startGame()">重新开始</button>
+</div>
+
+<script>
+const emojis = ['🐑','🐶','🐱','🐭','🐹','🐸','🐵','🐔','🐧','🐦','🐤','🐮','🐷','🐰']
+const game = document.getElementById('game')
+const scoreEl = document.getElementById('score')
+const slotMax = 7
+let cards = []
+let slot = []
+let score = 0
+
+function startGame(){
+  score = 0
+  slot = []
+  scoreEl.textContent = 0
+  game.innerHTML = ''
+  cards = []
+  renderSlot()
+  buildCards()
+}
+
+function renderSlot(){
+  for(let i=0;i<slotMax;i++){
+    document.getElementById(`s${i}`).textContent = slot[i] || ''
+  }
+}
+
+function buildCards(){
+  let list = []
+  for(let i=0;i<5;i++) emojis.forEach(e=>list.push(e))
+  list.sort(()=>Math.random()-0.5)
+  const w = innerWidth
+  const cx = w/2 - 27
+  list.forEach((e,i)=>{
+    const x = cx + (Math.random()-0.5)*220
+    const y = 180 + (Math.random()-0.5)*260 + i*2
+    const z = i
+    const div = document.createElement('div')
+    div.className = 'card'
+    div.style.left = x+'px'
+    div.style.top = y+'px'
+    div.style.zIndex = z
+    div.textContent = e
+    div.onclick = ()=>pick(div,e)
+    game.appendChild(div)
+    cards.push(div)
+  })
+}
+
+function pick(el,e){
+  if(el.classList.contains('used') || slot.length>=slotMax) return
+  el.classList.add('used')
+  slot.push(e)
+  renderSlot()
+  checkMatch()
+}
+
+function checkMatch(){
+  const count = {}
+  slot.forEach((item,idx)=>(count[item]??=[]).push(idx))
+  for(const key in count){
+    if(count[key].length>=3){
+      slot = slot.filter((_,i)=>!count[key].includes(i))
+      score += 10
+      scoreEl.textContent = score
+      renderSlot()
+      setTimeout(checkMatch,50)
+      return
+    }
+  }
+  if(slot.length>=slotMax){
+    setTimeout(()=>alert('游戏结束！得分：'+score),100)
+  }
+}
+
+startGame()
+</script>
+</body>
+</html>

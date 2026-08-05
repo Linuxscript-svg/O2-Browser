@@ -1,0 +1,90 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    namespace 'com.rootes.browser2'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.rootes.browser2"
+        minSdk 24
+        targetSdk 37
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        // 新增 release 签名配置（开发阶段可复用 debug 密钥）
+        release {
+            storeFile file('rootes.keystore')
+            storePassword '密码'
+            keyAlias '用户名'
+            keyPassword '密码'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release   // 现在 signingConfigs.release 已存在，不会再报错
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.4'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+dependencies {
+    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
+    implementation "io.coil-kt:coil-compose:2.6.0"
+    implementation "io.coil-kt:coil-gif:2.6.0"
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation "androidx.compose.material:material-icons-extended:1.5.4"
+    // 注意：版本号中带 + 可能导致构建问题，建议改为固定版本或去掉 +
+    implementation "androidx.compose.foundation:foundation:1.6.0"
+    implementation "androidx.compose.material3:material3:1.2.0"
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'androidx.webkit:webkit:1.8.0'
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+}

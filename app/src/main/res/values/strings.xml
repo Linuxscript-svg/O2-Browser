@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">轻览</string>
+    <string name="title">你真的要卸载猫猫娘吗~~~~</string>
+    <string name="content">请你反映猫猫娘，谢谢喵\n官方网站https://browser.rootes.top/</string>
+
+
+  <string name="uninstall_action_retain_info">“OPPO 商城”是系统应用，卸载后将无法使用选购官方商品、积分兑换、售后服务等功能</string>
+</resources>

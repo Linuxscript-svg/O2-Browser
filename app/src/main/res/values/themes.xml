@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.MyComposeApplicationTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- 核心：强制状态栏、导航栏完全透明 -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        
+        <!-- 彻底关闭系统强制的半透明蒙层，解决国产ROM状态栏有颜色的问题 -->
+        <item name="android:enforceStatusBarContrast">false</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+        
+        <!-- 适配刘海屏/挖孔屏，让壁纸延伸到刘海区域 -->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        
+        <!-- 关闭Activity默认背景，让壁纸完全显示 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        
+        <!-- 关闭ActionBar和标题 -->
+        <item name="android:windowActionBar">false</item>
+<item name="android:windowNoTitle">false</item>
+        <!-- 关闭Activity进入退出动画，避免干扰 -->
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
+</resources>

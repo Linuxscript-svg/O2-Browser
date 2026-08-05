@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 存储权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- 通知权限（Android 13+） -->
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        android:minSdkVersion="33" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <!-- 启动页 Activity -->
+        <activity
+            android:name="com.rootes.browser.StartActivity"
+            android:enableOnBackInvokedCallback="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- 单独处理 settings://start 协议 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="start"
+                    android:scheme="settings" />
+            </intent-filter>
+        </activity>
+
+        <!-- 设置页面 Activity -->
+        <activity
+            android:name="com.rootes.browser.SettingsActivity"
+            android:enableOnBackInvokedCallback="true"
+            android:exported="true" />
+
+        <!-- 主界面 Activity -->
+        <activity
+            android:name="com.rootes.browser.HomeActivity"
+            android:enableOnBackInvokedCallback="true"
+            android:exported="true" />
+<activity
+    android:name="com.rootes.browser2.MainActivity"
+    android:theme="@style/Theme.MyComposeApplicationTheme"
+    android:exported="true">
+</activity>
+
+            <!-- 主界面 Activity -->
+            <activity
+                android:name="com.rootes.app.FormActivity"
+                android:enableOnBackInvokedCallback="true"
+                android:exported="true" />
+            <!-- 主界面 Activity -->
+            
+            <!-- 主界面 Activity -->
+            <activity
+                android:name="com.rootes.app.TimeActivity"
+                android:enableOnBackInvokedCallback="true"
+                android:exported="true" />
+            <!-- 主界面 Activity -->
+            <!-- 油猴脚本管理界面 -->
+<activity
+    android:name="at.pardus.android.webview.gm.store.ui.ScriptManagerActivity"
+    android:exported="true" />
+    
+    <activity
+    android:name=".unit.ScriptManagerActivity"
+    android:exported="true"
+    android:label="油猴脚本管理" />
+<activity android:name="org.mozilla.geckoview.GeckoActivity" />
+
+<activity
+    android:name="at.pardus.android.webview.gm.ui.install.InstallScriptActivity"
+    android:exported="true" />
+
+        <activity
+            android:name="com.rootes.browser.AppActivity"
+            android:enableOnBackInvokedCallback="true"
+            android:exported="true" />
+
+        <!-- 浏览器核心 WebActivity -->
+        <activity
+            android:name=".unit.WebActivity"
+            android:enableOnBackInvokedCallback="true"
+            android:exported="true">
+            <!-- 处理 http/https 链接 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+            </intent-filter>
+            <!-- 处理 HTML 文件打开 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/html" />
+                <data android:mimeType="application/xhtml+xml" />
+            </intent-filter>
+        </activity>
+        
+<activity
+    android:name="com.rootes.app.user.LoginActivity"
+    android:exported="false" />
+    
+    <activity
+    android:name="com.rootes.app.RecoveryActivity"
+    android:exported="false" />
+    
+    <activity
+    android:name="com.rootes.app.user.UserActivity"
+    android:exported="false" />
+    
+    <activity
+    android:name="com.rootes.app.user.reg.RegisterActivity"
+    android:exported="false" />
+    
+
+    <!-- FileProvider 用于安装 APK -->
+    <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="${applicationId}.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+    </provider>
+
+
+<meta-data 
+android:name="android_description_title"
+android:resource="@string/title"/>
+
+<meta-data 
+android:name="android_description_content"
+android:resource="@string/content"/>
+    </application>
+
+</manifest>
