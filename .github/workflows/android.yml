@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -27,12 +28,11 @@ jobs:
       run: ./gradlew assembleRelease
 
     - name: Upload APK to GitHub Release
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
       uses: softprops/action-gh-release@v2
       with:
         tag_name: release-${{ github.run_number }}
         name: Release Build #${{ github.run_number }}
-      
         files: |
           app/build/outputs/apk/**/*.apk
           app/build/outputs/bundle/**/*.aab
